@@ -114,7 +114,18 @@ body{
 </div>
 
 <script>
+function get_data_from_url(url){
+    // appel de l'api MAL en passant par corsproxy
+    fetch( 'https://corsproxy.io/?' + encodeURIComponent(url),{
+        headers: {
+           'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'
+        }
+     })
+        .then(response =>response.json())
+        .then(text => loop_data(text))
+}
 function loop_data(data){
+    console.log(data['data'].length)
     for( const property in data['data']){
         anime_info=data['data'][property]
         //création de l'image
@@ -131,20 +142,24 @@ function loop_data(data){
         link.appendChild(image)
         document.getElementById('' + anime_info["list_status"]['score']).appendChild(link)
         }
+    //gestion de "next"
+    for(const property in data['paging']){
+        // si il reste des anime, on refait un tour
+        if (property=='next'){
+            get_data_from_url(data['paging']['next'])
+        }
+    }
 }
 
 
 const urlParams=new URLSearchParams(window.location.search);
 const profilemal =  urlParams.get('account')
 console.log(profilemal)
-// appel de l'api MAL en passant par corsproxy
-fetch( 'https://corsproxy.io/?' + encodeURIComponent('https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&fields=list_status&limit=1000'),{
-    headers: {
-       'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'
-    }
- })
-    .then(response =>response.json())
-    .then(text => loop_data(text))
+const url ='https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000'
+if (profilemal!=null){
+    get_data_from_url(url)
+}
+
 
 </script>
 </main>
