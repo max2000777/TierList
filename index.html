@@ -1,0 +1,150 @@
+<!doctype htlm>
+
+<style>
+
+    /*tierlist*/
+
+body{
+    background-color: black;
+    color: black;
+    font-size: 18px;
+}
+
+#conteneur{
+   display: flex;
+   flex-direction: column;
+}
+
+.score{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    min-height: 100px;
+    width: 100%;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.scorepan{
+    width: 5%;
+    text-align: center;
+    text-justify: auto;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+.contim{
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.img{
+    margin-left: 3px;
+    margin-right: 2px;
+    margin-top: 3px;
+    margin-bottom: 2px;
+}
+
+
+
+
+
+/*les couleurs des tiers*/
+#n10{
+    background-color: red;
+}
+#n9{
+    background-color: orange;
+}
+#n8{
+    background-color: gold;
+}
+#n7{
+    background-color: yellow;
+}
+#n6{
+    background-color: greenyellow;
+}
+#n5{
+    background-color: rgb(44, 44, 224);
+}
+#n4{
+    background-color: lightskyblue;
+}
+#n3{
+    background-color: pink;
+}
+#n2{
+    background-color: plum;
+}
+#n1{
+    background-color: purple;
+}
+#n0{
+    background-color: whitesmoke;
+}
+</style>
+
+
+<html>
+<head>
+    <title>Le grand banditisme</title>
+    <link type="text/css" rel="stylesheet" type="image/x-icon" href="CSS.css">
+    <link rel="icon" href="../Vol.ico" />
+</head>
+
+<main>
+<div id='conteneur'>
+    <div id='sc10' class='score'><div class="scorepan" id='n10'>Masterpiece<br>(10)</div><div class='contim' id='10'></div></div>
+    <div id='sc9'class='score'><div class="scorepan" id='n9'>Great<br>(9)</div><div class='contim' id='9'></div></div>
+    <div id='sc8'class='score'><div class="scorepan" id='n8'>Very Good<br>(8)</div><div class='contim' id='8'></div></div>
+    <div id='sc7'class='score'><div class="scorepan" id='n7'>Good<br>(7)</div><div class='contim' id='7'></div></div>
+    <div id='sc6'class='score'><div class="scorepan" id='n6'>Fine<br>(6)</div><div class='contim' id='6'></div></div>
+    <div id='sc5'class='score'><div class="scorepan" id='n5'>Average<br>(5)</div><div class='contim' id='5'></div></div>
+    <div id='sc4'class='score'><div class="scorepan" id='n4'>Bad<br>(4)</div><div class='contim' id='4'></div></div>
+    <div id='sc3'class='score'><div class="scorepan" id='n3'>Very Bad<br>(3)</div><div class='contim' id='3'></div></div>
+    <div id='sc2'class='score'><div class="scorepan" id='n2'>Horrible<br>(2)</div><div class='contim' id='2'></div></div>
+    <div id='sc1'class='score'><div class="scorepan" id='n1'>Appalling<br>(1)</div><div class='contim'id='1'></div></div>
+    <div id='sc0'class='score'><div class="scorepan" id='n0'>Non noté<br></div><div class='contim'id='0'></div></div>
+</div>
+
+<script>
+function loop_data(data){
+    for( const property in data['data']){
+        anime_info=data['data'][property]
+        //création de l'image
+        let image=document.createElement('img')
+        image.src=anime_info['node']['main_picture']['medium']
+        image.title=anime_info['node']['title']
+        image.style.height='100px'
+
+        //création du lien
+        var link = document.createElement('a');
+        link.setAttribute('href','https://myanimelist.net/anime/'+anime_info['node']['id']);
+        link.setAttribute('target','_blank')
+        link.style.padding = "2px 2px 2px 2px";
+        link.appendChild(image)
+        document.getElementById('' + anime_info["list_status"]['score']).appendChild(link)
+        }
+}
+
+
+const urlParams=new URLSearchParams(window.location.search);
+const profilemal =  urlParams.get('account')
+console.log(profilemal)
+// appel de l'api MAL en passant par corsproxy
+fetch( 'https://corsproxy.io/?' + encodeURIComponent('https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&fields=list_status&limit=1000'),{
+    headers: {
+       'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'
+    }
+ })
+    .then(response =>response.json())
+    .then(text => loop_data(text))
+
+</script>
+</main>
