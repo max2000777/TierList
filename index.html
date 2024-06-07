@@ -94,8 +94,6 @@ body{
 <html>
 <head>
     <title>Le grand banditisme</title>
-    <link type="text/css" rel="stylesheet" type="image/x-icon" href="CSS.css">
-    <link rel="icon" href="../Vol.ico" />
 </head>
 
 <main>
@@ -114,15 +112,23 @@ body{
 </div>
 
 <script>
-function get_data_from_url(url,score_count){
+async function get_data_from_url(url,score_count){
     // appel de l'api MAL en passant par corsproxy
-    fetch( 'https://corsproxy.io/?' + encodeURIComponent(url),{
-        headers: {
-           'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'
+    console.log(url)
+    try{
+        const response = await fetch( 'https://corsproxy.io/?' + encodeURIComponent(url),{
+            headers: {
+               'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'
+            }
+         })
+        if (!response.ok) {
+            throw new Error("La réponse n'est pas OK");
         }
-     })
-        .then(response =>response.json())
-        .then(text => loop_data(text,score_count))
+    } catch(error){
+        console.error("Un problème est survenu lors de la récupération :", error);
+    }
+    const json = await response.json()
+    loop_data(json,score_count)
 }
 function loop_data(data,score_count){
     console.log(data['data'].length)
@@ -174,7 +180,8 @@ const score_count = new Map([
   [7,0],[8,0],[9,0],
   [10,0],["total",0]
 ]);
-const url ='https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000'
+//const url ='https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000'
+const url ='https://api.jikan.moe/v4/anime/200/full'
 if (profilemal!=null){
     get_data_from_url(url,score_count)
 }
