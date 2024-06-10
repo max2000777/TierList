@@ -116,7 +116,7 @@ async function get_data_from_url(url,score_count){
     // appel de l'api MAL en passant par corsproxy
     console.log( 'https://corsproxy.io/?'+url)
     const response = await fetch(url ,{
-        //headers: {'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'}
+        headers: {'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'}
         })
     if (!response.ok) {
         throw new Error("La réponse n'est pas OK");
@@ -175,8 +175,8 @@ const score_count = new Map([
   [7,0],[8,0],[9,0],
   [10,0],["total",0]
 ]);
-//const url =`https://api.allorigins.win/get?url=${encodeURIComponent('https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000')}`
-const url = 'https://corsproxy.io/?' + encodeURIComponent('https://api.jikan.moe/v4/anime/200/full');
+const url ='https://corsproxy.io/?' +encodeURIComponent('https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000')
+//const url = 'https://corsproxy.io/?' + encodeURIComponent('https://api.jikan.moe/v4/anime/200/full');
 //const url =`https://api.allorigins.win/get?url=${encodeURIComponent('https://api.jikan.moe/v4/anime/200/full')}`
 //const url ='https://api.jikan.moe/v4/anime/200/full'
 if (profilemal!=null){
