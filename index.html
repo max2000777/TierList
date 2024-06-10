@@ -115,15 +115,11 @@ body{
 async function get_data_from_url(url,score_count){
     // appel de l'api MAL en passant par corsproxy
     console.log( 'https://corsproxy.io/?'+url)
-    try{
-        const response = await fetch(url ,{
-            //headers: {'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'}
-         })
-        if (!response.ok) {
-            throw new Error("La réponse n'est pas OK");
-        }
-    } catch(error){
-        console.error("Un problème est survenu lors de la récupération :", error);
+    const response = await fetch(url ,{
+        //headers: {'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'}
+        })
+    if (!response.ok) {
+        throw new Error("La réponse n'est pas OK");
     }
     const json = await response.json()
     console.log(json)
