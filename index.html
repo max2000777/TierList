@@ -114,7 +114,7 @@ body{
 <script>
 async function get_data_from_url(url,score_count){
     // appel de l'api MAL en passant par corsproxy
-    console.log( 'https://corsproxy.io/?'+url)
+    console.log(url)
     const response = await fetch(url ,{
         headers: {'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'}
         })
