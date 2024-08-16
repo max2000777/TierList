@@ -113,16 +113,14 @@ body{
 
 <script>
 async function get_data_from_url(url,score_count){
-    // appel de l'api MAL en passant par corsproxy
+    // appel de l'api MAL en passant php
     console.log(url)
-    const response = await fetch(url ,{
-        headers: {'X-MAL-CLIENT-ID': 'eb339a2b69f882e46439a64f8d89feb3'}
-        })
-    if (!response.ok) {
-        throw new Error("La réponse n'est pas OK");
-    }
-    const json = await response.json()
-    console.log(json)
+    const response = <?php echo='https://api.myanimelist.net/v2/users/'.  $_GET['account'] .'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000';
+                            $ch = curl_init("REMOTE XML FILE URL GOES HERE"); 
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HEADER, 0);
+                            $data = curl_exec($ch);
+                            curl_close($ch);?>;
     loop_data(json,score_count)
 }
 function loop_data(data,score_count){
@@ -175,10 +173,7 @@ const score_count = new Map([
   [7,0],[8,0],[9,0],
   [10,0],["total",0]
 ]);
-const url ='https://corsproxy.io/?' +encodeURIComponent('https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000')
-//const url = 'https://corsproxy.io/?' + encodeURIComponent('https://api.jikan.moe/v4/anime/200/full');
-//const url =`https://api.allorigins.win/get?url=${encodeURIComponent('https://api.jikan.moe/v4/anime/200/full')}`
-//const url ='https://api.jikan.moe/v4/anime/200/full'
+const url ='https://api.myanimelist.net/v2/users/'+profilemal+'/animelist?status=completed&sort=list_score&fields=list_status&limit=1000'
 if (profilemal!=null){
     get_data_from_url(url,score_count)
 }
