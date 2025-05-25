@@ -121,13 +121,14 @@ async function get_data_from_url(url,score_count){
     };
 
     fetch(url, requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result),
-    loop_data(result.json(),score_count)
+    .then((response) => response.json())
+    .then((result) => 
+        loop_data(result,score_count)
     )
     .catch((error) => console.error(error));
 }
 function loop_data(data,score_count){
+    console.log(data)
     console.log(data['data'].length)
     for( const property in data['data']){
         anime_info=data['data'][property]
@@ -153,7 +154,7 @@ function loop_data(data,score_count){
     for(const property in data['paging']){
         // si il reste des anime, on refait un tour
         if (property=='next'){
-            get_data_from_url(corsURL+data['paging']['next'],score_count)
+            get_data_from_url(corsURL+encodeURIComponent(data['paging']['next']),score_count)
         }
     }
     if (!('next'in data['paging'])){
