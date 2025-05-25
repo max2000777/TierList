@@ -151,7 +151,7 @@ function loop_data(data,score_count){
     for(const property in data['paging']){
         // si il reste des anime, on refait un tour
         if (property=='next'){
-            get_data_from_url(data['paging']['next'],score_count)
+            get_data_from_url(corsURL+data['paging']['next'],score_count)
         }
     }
     if (!('next'in data['paging'])){
@@ -175,7 +175,8 @@ const score_count = new Map([
   [7,0],[8,0],[9,0],
   [10,0],["total",0]
 ]);
-const url ="https://bauzk1blh9.execute-api.eu-north-1.amazonaws.com/prod/mal?url=" +
+const corsURL = "https://bauzk1blh9.execute-api.eu-north-1.amazonaws.com/prod/mal?url="
+const url = corsURL  +
             encodeURIComponent("https://api.myanimelist.net/v2/users/"+profilemal+"/animelist?status=completed&sort=list_score&fields=list_status&limit=1000")
 //const url = 'https://corsproxy.io/?' + encodeURIComponent('https://api.jikan.moe/v4/anime/200/full');
 //const url =`https://api.allorigins.win/get?url=${encodeURIComponent('https://api.jikan.moe/v4/anime/200/full')}`
