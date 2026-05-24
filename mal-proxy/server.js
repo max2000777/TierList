@@ -1,4 +1,5 @@
 // API docimentation : https://myanimelist.net/apiconfig/references/api/v2
+// API call without access token : https://myanimelist.net/forum/?topicid=1973077
 // problem : https://myanimelist.net/forum/?topicid=1850649#msg60420647
 
 import express from "express";
